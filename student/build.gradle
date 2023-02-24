@@ -1,0 +1,18 @@
+plugins {
+    id 'kotlin'
+}
+
+group 'xyz.kandrac.student'
+version '0.1'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation project(':teacher')
+}
+
+test {
+    useJUnitPlatform()
+}
