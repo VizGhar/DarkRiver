@@ -20,8 +20,13 @@ data class SpriteSheetAnimation(
  *
  * Every row should contain single type of animation
  */
-fun loadAnimations(spriteSheet: String, columns: Int, rows: Int): SpriteSheetAnimation {
+fun loadAnimations(
+    spriteSheet: String,
+    columns: Int,
+    rows: Int,
+    map: (Int, Array<TextureRegion>) -> Animation<TextureRegion> = { _, textures -> Animation(0.1f, *textures)})
+: SpriteSheetAnimation {
     val sheet = Texture(Gdx.files.internal(spriteSheet))
     val frames = TextureRegion.split(sheet, sheet.width / columns, sheet.height / rows)
-    return SpriteSheetAnimation(sheet, frames.map { f -> Animation(0.1f, *f) })
+    return SpriteSheetAnimation(sheet, frames.mapIndexed { index, textureRegions ->  map(index, textureRegions) })
 }

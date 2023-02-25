@@ -3,6 +3,7 @@ package xyz.kandrac.game
 import com.badlogic.gdx.Gdx
 import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.graphics.Camera
+import com.badlogic.gdx.graphics.g2d.Animation
 import com.badlogic.gdx.graphics.g2d.SpriteBatch
 import com.badlogic.gdx.physics.box2d.BodyDef
 import com.badlogic.gdx.physics.box2d.PolygonShape
@@ -19,16 +20,24 @@ internal class Hero(world: World, private val scale: Float) {
     val x get() = body.position.x
     val y get() = body.position.y
 
-    private var stateTime = 0f
+    private var stateTime = 200f
     private var orientation = HeroOrientation.RIGHT
 
     private val spriteBatch by lazy { SpriteBatch() }
 
-    private val animations by lazy { loadAnimations("dark_river/player.png", 6, 4) }
+    private val animations by lazy {
+        loadAnimations("dark_river/player.png", 6, 4) { row, frames ->
+            when (row) {
+                2 -> Animation(0.1f, *(frames.take(4).toTypedArray()))
+                3 -> Animation(0.1f, *(frames.take(3).toTypedArray()))
+                else -> Animation(0.1f, *frames)
+            }
+        }
+    }
     private val idleAnimation by lazy { animations.animations[0] }
     private val walkRightAnimation by lazy { animations.animations[1] }
-    private val swordAnimation by lazy { animations.animations[2] }     // TODO only 4 frames
-    private val deathAnimation by lazy { animations.animations[3] }     // TODO only 3 frames
+    private val swordAnimation by lazy { animations.animations[2] }
+    private val deathAnimation by lazy { animations.animations[3] }
 
     private val body by lazy {
         val def = BodyDef().apply { type = BodyDef.BodyType.DynamicBody; position.set(8f, 6f); fixedRotation = true }
@@ -54,7 +63,10 @@ internal class Hero(world: World, private val scale: Float) {
                 Gdx.input.isKeyPressed(Keys.UP) -> characterSpeed
                 Gdx.input.isKeyPressed(Keys.DOWN) -> -characterSpeed
                 else -> 0f
-            })
+            }
+        )
+
+        if (stateTime <= swordAnimation.animationDuration) { body.setLinearVelocity(0f, 0f) }
 
         when {
             body.linearVelocity.x < 0f -> orientation = HeroOrientation.LEFT
@@ -62,8 +74,10 @@ internal class Hero(world: World, private val scale: Float) {
         }
 
         val frame = when {
-            body.linearVelocity.epsilonEquals(0f, 0f) -> idleAnimation
-            else -> walkRightAnimation
+            stateTime < swordAnimation.animationDuration -> swordAnimation
+            Gdx.input.isKeyPressed(Keys.SPACE) -> { stateTime = 0f; swordAnimation }
+            body.linearVelocity.x != 0f -> walkRightAnimation
+            else -> idleAnimation
         }.getKeyFrame(stateTime, true)
 
         if ((orientation == HeroOrientation.RIGHT && frame.isFlipX) || (orientation == HeroOrientation.LEFT && !frame.isFlipX)) {

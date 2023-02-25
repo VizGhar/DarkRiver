@@ -57,7 +57,7 @@ class DemoScreen : ScreenAdapter() {
         hero.draw(camera)
         talk.render()
         musicControl.draw()
-        debugRenderer.render(world, camera.combined);
+//        debugRenderer.render(world, camera.combined);
 
         if (!talkTested) {
             talkTested = true
