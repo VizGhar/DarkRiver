@@ -25,7 +25,7 @@ internal object SoundEffectsMethodExercise : SynchronousMethodExercise<File>() {
 
     override suspend fun test(iteration: Int): TestResult {
         return if (method?.invoke(null, SoundEffect.values()[iteration]) == null) {
-            TestResult.Failed
+            TestResult.Failed("")
         } else {
             TestResult.Passed
         }

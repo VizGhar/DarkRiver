@@ -14,12 +14,9 @@ internal val tests by lazy { MutableStateFlow(mapOf<Exercise, TestStatus>()) }
  */
 internal val Exercise.observeTestResult get() = tests.map { it[this] }
 
-/**
- * Result of test execution can only be passed or failed
- */
 internal sealed interface TestResult {
     object Passed : TestResult
-    object Failed: TestResult
+    data class Failed<T>(val reason: T): TestResult
 }
 
 enum class TestTimeConstraint { Within, Outside }

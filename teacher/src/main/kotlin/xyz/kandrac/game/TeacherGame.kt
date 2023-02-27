@@ -13,11 +13,14 @@ import xyz.kandrac.game.screen.routeEvents
 import xyz.kandrac.exercise.base.activeAsyncExercises
 import xyz.kandrac.exercise.base.tests
 import xyz.kandrac.exercise.e0001_user_name.UserNameMethodExercise
+import xyz.kandrac.exercise.e0051_git_global_config.GitGlobalConfigExercise
+import xyz.kandrac.exercise.e0052_git_local_config.GitLocalConfigExercise
 
 internal class TeacherGame : Game() {
 
     override fun create() {
         KtxAsync.initiate()
+
 
         KtxAsync.launch {
             activeAsyncExercises.collect { exercises ->
@@ -48,6 +51,8 @@ internal class TeacherGame : Game() {
 
         CoroutineScope(Dispatchers.Unconfined).launch {
             UserNameMethodExercise.test()
+            GitGlobalConfigExercise.test()
+            GitLocalConfigExercise.test()
             routeEvents.collect {
                 screen = screens[it]
             }

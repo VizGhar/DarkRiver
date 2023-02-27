@@ -19,7 +19,7 @@ internal object UserNameMethodExercise : SynchronousMethodExercise<String>() {
 
     override suspend fun test(iteration: Int): TestResult {
         return if (method?.invoke(null) == null) {
-            TestResult.Failed
+            TestResult.Failed("")
         } else {
             TestResult.Passed
         }

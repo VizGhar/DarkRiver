@@ -20,7 +20,7 @@ internal object MusicFileMethodExercise : SynchronousMethodExercise<File>() {
 
     override suspend fun test(iteration: Int): TestResult {
         return if (method?.invoke(null) == null) {
-            TestResult.Failed
+            TestResult.Failed("")
         } else {
             TestResult.Passed
         }

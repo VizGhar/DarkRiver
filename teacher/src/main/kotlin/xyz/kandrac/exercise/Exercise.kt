@@ -117,7 +117,7 @@ internal abstract class Exercise {
                 var result: TestResult = TestResult.Passed
                 for (i in 0 until testCases) {
                     val eval = test(iteration = i)
-                    if (eval is TestResult.Failed) {
+                    if (eval != TestResult.Passed) {
                         result = eval
                         break
                     }

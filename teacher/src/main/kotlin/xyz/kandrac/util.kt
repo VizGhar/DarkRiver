@@ -6,6 +6,7 @@ import kotlinx.coroutines.launch
 import kotlinx.coroutines.withContext
 import ktx.async.KtxAsync
 import ktx.async.newSingleThreadAsyncContext
+import java.util.regex.Pattern
 
 internal fun <T> runWithTimeout(
     timeoutMs: Long,
@@ -38,4 +39,27 @@ internal fun <T> runWithTimeout(
             }
         }
     }
+}
+
+internal enum class Os {
+    WINDOWS, OTHER  // (assuming *nix based environment - Linux, Mac)
+}
+
+internal fun getOs() : Os {
+    val osName = System.getProperty("os.name")
+    return when {
+        osName.startsWith("Windows") -> Os.WINDOWS
+        else -> Os.OTHER
+    }
+}
+
+internal val isWindows get() = getOs() == Os.WINDOWS
+internal val isNotWindows get() = getOs() != Os.WINDOWS
+
+internal const val emailRegexPattern = "^[a-zA-Z0-9_!#$%&'*+/=?`{|}~^.-]+@[a-zA-Z0-9.-]+$";
+
+fun isMailValid(emailAddress: String): Boolean {
+    return Pattern.compile(emailRegexPattern)
+        .matcher(emailAddress)
+        .matches()
 }
