@@ -9,6 +9,7 @@ import org.reflections.util.JavassistHelper
 import org.reflections.util.QueryBuilder
 import xyz.kandrac.game.configuration
 import java.lang.reflect.Method
+import kotlin.streams.toList
 
 val defaultPackageName get() = configuration.packageName
 

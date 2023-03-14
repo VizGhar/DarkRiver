@@ -11,6 +11,7 @@ import com.badlogic.gdx.utils.viewport.ExtendViewport
 import ktx.box2d.createWorld
 import ktx.graphics.lerpTo
 import xyz.kandrac.exercise.e0001_user_name.UserNameMethodExercise
+import xyz.kandrac.exercise.e0002_music_file.MusicFileMethodExercise
 import xyz.kandrac.exercise.e0004_long_run.LongRunExercise
 import xyz.kandrac.game.Hero
 import xyz.kandrac.game.MusicControl
@@ -87,14 +88,14 @@ class DemoScreen : ScreenAdapter() {
     }
 
     private fun setBackgroundMusic() {
-//        val exercise = ExerciseMusicPlayer()
-//        when (val result = exercise.validate()) {
-//            is ValidationResult.Error -> { Teacher.say(result.inGameErrorMessage); println(result.fullErrorMessage) }
-//            is ValidationResult.NotImplemented -> { Teacher.say(exercise.inGameDescription); println(exercise.fullDescription) }
-//            is ValidationResult.Success -> {
-//                musicControl.setBackgroundMusic(exercise.get().absolutePath)
-//            }
-//        }
+        val exercise = MusicFileMethodExercise
+        val result = exercise.call()
+        if (result != null) {
+            System.err.println("music file - ${result.absolutePath}")
+            musicControl.setBackgroundMusic(result.absolutePath)
+        } else {
+            System.err.println("no music file")
+        }
     }
 
     override fun hide() {

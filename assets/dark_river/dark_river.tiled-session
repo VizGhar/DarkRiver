@@ -3,7 +3,7 @@
         "height": 4300,
         "width": 2
     },
-    "activeFile": "Terrain-free.tsx",
+    "activeFile": "location_reached_tests.tmx",
     "expandedProjectPaths": [
         "."
     ],
@@ -13,11 +13,11 @@
             "scaleInEditor": 1
         },
         "location_reached_tests.tmx": {
-            "scale": 1.9043,
+            "scale": 2.4324,
             "selectedLayer": 0,
             "viewCenter": {
-                "x": 310.08769626634455,
-                "y": 145.19771044478287
+                "x": 228.1697089294524,
+                "y": 141.8352244696596
             }
         }
     },
@@ -32,8 +32,8 @@
     ],
     "project": "dark_river.tiled-project",
     "recentFiles": [
-        "location_reached_tests.tmx",
-        "Terrain-free.tsx"
+        "Terrain-free.tsx",
+        "location_reached_tests.tmx"
     ],
     "tileset.lastUsedFormat": "tsx",
     "tileset.tileSize": {
