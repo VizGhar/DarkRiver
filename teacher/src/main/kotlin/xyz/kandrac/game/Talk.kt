@@ -7,7 +7,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch
 internal class Talk {
 
     private var text = ""
-    private var duration = 0L
+    private var duration : Long? = null
     private var start = 0L
 
     private val textCamera by lazy { OrthographicCamera().apply {
@@ -19,14 +19,24 @@ internal class Talk {
 
     private val font by lazy { createFont(24) }
 
-    fun say(text: String, duration: Long) {
+    fun say(text: String, duration: Long? = null) {
         this.text = text
         this.duration = duration
         start = System.currentTimeMillis()
     }
 
+    fun silence() {
+        this.text = ""
+        this.duration = null
+        communicationBatch.projectionMatrix = textCamera.combined
+        communicationBatch.begin()
+        font.draw(communicationBatch, text, 0f, 120f)
+        communicationBatch.end()
+    }
+
     fun render() {
-        if (duration == -1L || System.currentTimeMillis() - start < duration) {
+        val duration = duration
+        if (duration == null || System.currentTimeMillis() - start < duration) {
             communicationBatch.projectionMatrix = textCamera.combined
             communicationBatch.begin()
             font.draw(communicationBatch, text, 0f, 120f)

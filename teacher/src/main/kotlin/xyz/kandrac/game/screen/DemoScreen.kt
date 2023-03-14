@@ -13,10 +13,12 @@ import ktx.graphics.lerpTo
 import xyz.kandrac.exercise.e0001_user_name.UserNameMethodExercise
 import xyz.kandrac.exercise.e0002_music_file.MusicFileMethodExercise
 import xyz.kandrac.exercise.e0004_long_run.LongRunExercise
-import xyz.kandrac.game.Hero
+import xyz.kandrac.game.obj.creature.Hero
 import xyz.kandrac.game.MusicControl
 import xyz.kandrac.game.Talk
 import xyz.kandrac.game.getCollisionBodies
+import xyz.kandrac.game.obj.creature.Critter
+import xyz.kandrac.game.trigger.ProximityTrigger
 
 const val SCALE = 1 / 16f
 const val DEMO_MAP = "dark_river/location_reached_tests.tmx"
@@ -31,17 +33,19 @@ class DemoScreen : ScreenAdapter() {
     private val camera by lazy { OrthographicCamera() }
     private val viewport by lazy { ExtendViewport(VIEWPORT_WIDTH, VIEWPORT_HEIGHT, camera) }
     private val hero by lazy { Hero(world, SCALE) }
+    private val critter by lazy { Critter(world, SCALE) }
     private val talk by lazy { Talk() }
     private val musicControl by lazy { MusicControl { setBackgroundMusic() } }
     private val tileMap by lazy { TmxMapLoader().load(DEMO_MAP) }
     private val mapRenderer by lazy { OrthogonalTiledMapRenderer(tileMap, SCALE) }
     private val boxRender by lazy { Box2DDebugRenderer() }
+    private val heroCritterProximity by lazy { ProximityTrigger(hero, critter, 1.5f) { if(it) talk.say("HELLO") else talk.silence() } }
     private var talkTested = false
 
     private val debugRenderer by lazy { Box2DDebugRenderer() }
 
     init {
-        camera; viewport; hero; talk; musicControl; tileMap; mapRenderer
+        camera; viewport; hero; critter; talk; musicControl; tileMap; mapRenderer
         viewport.update(Gdx.graphics.width, Gdx.graphics.height)
         camera.position.set(hero.x, hero.y, 0f)
         addCollisions()
@@ -56,8 +60,10 @@ class DemoScreen : ScreenAdapter() {
         mapRenderer.setView(camera)
         mapRenderer.render()
         hero.draw(camera)
+        critter.draw(camera)
         talk.render()
         musicControl.draw()
+        heroCritterProximity.check()
 //        debugRenderer.render(world, camera.combined);
 
         if (!talkTested) {
@@ -71,6 +77,7 @@ class DemoScreen : ScreenAdapter() {
     override fun dispose() {
         world.dispose()
         hero.dispose()
+        critter.dispose()
         talk.dispose()
         musicControl.dispose()
         tileMap.dispose()
