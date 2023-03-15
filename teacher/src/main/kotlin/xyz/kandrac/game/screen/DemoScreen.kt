@@ -1,6 +1,7 @@
 package xyz.kandrac.game.screen
 
 import com.badlogic.gdx.Gdx
+import com.badlogic.gdx.Input.Keys
 import com.badlogic.gdx.ScreenAdapter
 import com.badlogic.gdx.graphics.OrthographicCamera
 import com.badlogic.gdx.maps.tiled.TmxMapLoader
@@ -18,14 +19,13 @@ import xyz.kandrac.game.MusicControl
 import xyz.kandrac.game.Talk
 import xyz.kandrac.game.getCollisionBodies
 import xyz.kandrac.game.obj.creature.Critter
+import xyz.kandrac.game.trigger.ProximityKeyPressTrigger
 import xyz.kandrac.game.trigger.ProximityTrigger
 
 const val SCALE = 1 / 16f
 const val DEMO_MAP = "dark_river/location_reached_tests.tmx"
 const val VIEWPORT_WIDTH = 16f
 const val VIEWPORT_HEIGHT = 9f
-const val MAP_WIDTH = 32
-const val MAP_HEIGHT = 18
 
 class DemoScreen : ScreenAdapter() {
 
@@ -39,10 +39,11 @@ class DemoScreen : ScreenAdapter() {
     private val tileMap by lazy { TmxMapLoader().load(DEMO_MAP) }
     private val mapRenderer by lazy { OrthogonalTiledMapRenderer(tileMap, SCALE) }
     private val boxRender by lazy { Box2DDebugRenderer() }
-    private val heroCritterProximity by lazy { ProximityTrigger(hero, critter, 1.5f) { if(it) talk.say("HELLO") else talk.silence() } }
+    private val heroCritterProximity by lazy { ProximityTrigger(hero, critter, 1.5f) { if(it) talk.say("Press (K) to talk") else talk.silence() } }
+    private val heroCritterTalk by lazy { ProximityKeyPressTrigger(hero, critter, 1.5f, Keys.K) { if(it) talk.say("Nice") } }
     private var talkTested = false
 
-    private val debugRenderer by lazy { Box2DDebugRenderer() }
+//    private val debugRenderer by lazy { Box2DDebugRenderer() }
 
     init {
         camera; viewport; hero; critter; talk; musicControl; tileMap; mapRenderer
@@ -64,6 +65,7 @@ class DemoScreen : ScreenAdapter() {
         talk.render()
         musicControl.draw()
         heroCritterProximity.check()
+        heroCritterTalk.check()
 //        debugRenderer.render(world, camera.combined);
 
         if (!talkTested) {
