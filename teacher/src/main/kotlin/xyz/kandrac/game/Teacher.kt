@@ -1,5 +1,6 @@
 package xyz.kandrac.game
 
+import com.badlogic.gdx.Graphics
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3Application
 import com.badlogic.gdx.backends.lwjgl3.Lwjgl3ApplicationConfiguration
 
@@ -12,6 +13,8 @@ internal object Teacher {
         config.setForegroundFPS(60)
         config.setTitle(configuration.screenTitle)
         config.setOpenGLEmulation(Lwjgl3ApplicationConfiguration.GLEmulation.ANGLE_GLES20, 0, 0)
+        val dm: Graphics.DisplayMode = Lwjgl3ApplicationConfiguration.getDisplayMode()
+        config.setWindowedMode(dm.width / 2, dm.height / 2)
         Lwjgl3Application(game, config)
     }
 }

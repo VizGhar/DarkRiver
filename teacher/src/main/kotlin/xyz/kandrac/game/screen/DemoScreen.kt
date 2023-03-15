@@ -26,8 +26,8 @@ import xyz.kandrac.game.trigger.ProximityTrigger
 
 const val SCALE = 1 / 16f
 const val DEMO_MAP = "dark_river/location_reached_tests.tmx"
-const val VIEWPORT_WIDTH = 16f
-const val VIEWPORT_HEIGHT = 9f
+const val VIEWPORT_WIDTH = 24f
+const val VIEWPORT_HEIGHT = 12f
 
 class DemoScreen : ScreenAdapter() {
 
@@ -67,8 +67,15 @@ class DemoScreen : ScreenAdapter() {
         camera.update()
         mapRenderer.setView(camera)
         mapRenderer.render()
-        hero.draw(camera)
-        critter.draw(camera)
+
+        if (hero.y > critter.y) {
+            hero.draw(camera)
+            critter.draw(camera)
+        } else {
+            critter.draw(camera)
+            hero.draw(camera)
+        }
+
         talk.render()
         musicControl.draw()
         heroCritterProximity.check()

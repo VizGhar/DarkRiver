@@ -74,7 +74,7 @@ internal class Hero(world: World, private val scale: Float) : BodyOwner {
         val frame = when {
             stateTime < swordAnimation.animationDuration -> swordAnimation
             Gdx.input.isKeyPressed(Input.Keys.SPACE) -> { stateTime = 0f; swordAnimation }
-            body.linearVelocity.x != 0f -> walkRightAnimation
+            body.linearVelocity.x != 0f || body.linearVelocity.y != 0f-> walkRightAnimation
             else -> idleAnimation
         }.getKeyFrame(stateTime, true)
 
