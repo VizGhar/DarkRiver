@@ -11,6 +11,8 @@ import com.badlogic.gdx.physics.box2d.Box2DDebugRenderer
 import com.badlogic.gdx.utils.viewport.ExtendViewport
 import ktx.box2d.createWorld
 import ktx.graphics.lerpTo
+import ktx.tiled.height
+import ktx.tiled.width
 import xyz.kandrac.exercise.e0001_user_name.UserNameMethodExercise
 import xyz.kandrac.exercise.e0002_music_file.MusicFileMethodExercise
 import xyz.kandrac.exercise.e0004_long_run.LongRunExercise
@@ -54,7 +56,12 @@ class DemoScreen : ScreenAdapter() {
 
     override fun render(delta: Float) {
         super.render(delta)
-        camera.lerpTo(Vector2(hero.x, hero.y), 0.1f)
+
+        // LERP + MAP pinning - no black srip to be shown for large enough maps
+        camera.lerpTo(Vector2(
+            minOf(maxOf(hero.x, camera.viewportWidth / 2), tileMap.width - camera.viewportWidth / 2),
+            minOf(maxOf(hero.y, camera.viewportHeight / 2), tileMap.height - camera.viewportHeight / 2)
+        ), 0.1f)
 
         world.step(1/60f, 6, 2)
         camera.update()
