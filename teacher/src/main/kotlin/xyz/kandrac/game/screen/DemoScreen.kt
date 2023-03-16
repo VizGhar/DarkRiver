@@ -19,6 +19,7 @@ import xyz.kandrac.exercise.e0004_long_run.LongRunExercise
 import xyz.kandrac.game.obj.creature.Hero
 import xyz.kandrac.game.MusicControl
 import xyz.kandrac.game.Talk
+import xyz.kandrac.game.conversation.ConversationHandler
 import xyz.kandrac.game.getCollisionBodies
 import xyz.kandrac.game.obj.creature.Critter
 import xyz.kandrac.game.trigger.ProximityKeyPressTrigger
@@ -87,6 +88,7 @@ class DemoScreen : ScreenAdapter() {
             val name = UserNameMethodExercise.call()
             LongRunExercise.enqueue()
             System.err.println("Hello $name")
+            ConversationHandler(Gdx.files.internal("conversation_test.json")).startConversation()
         }
     }
 

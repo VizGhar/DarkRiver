@@ -1,0 +1,44 @@
+{
+  "initial_id": "1",
+  "conversations": [
+    {
+      "id": "1",
+      "text": "Hello traveller, choose your favorite weapon",
+      "choices": [
+        {
+          "id": "2",
+          "key": "S",
+          "text": "(S) Sword",
+          "conversation_id": "5"
+        },
+        {
+          "id": "3",
+          "key": "B",
+          "text": "(B) Bow",
+          "conversation_id": "6"
+        },
+        {
+          "id": "4",
+          "key": "A",
+          "text": "(A) Axe",
+          "conversation_id": "7"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "text": "There you go a sword for brave traveller!",
+      "choices": []
+    },
+    {
+      "id": "6",
+      "text": "Bow and arrows. World will be better place now.",
+      "choices": []
+    },
+    {
+      "id": "7",
+      "text": "Axe? Are you some kind of lumberjack?",
+      "choices": []
+    }
+  ]
+}
