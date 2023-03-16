@@ -43,7 +43,7 @@ class DemoScreen : ScreenAdapter() {
     private val mapRenderer by lazy { OrthogonalTiledMapRenderer(tileMap, SCALE) }
     private val boxRender by lazy { Box2DDebugRenderer() }
     private val heroCritterProximity by lazy { ProximityTrigger(hero, critter, 1.5f) { if(it) talk.say("Press (K) to talk") else talk.silence() } }
-    private val heroCritterTalk by lazy { ProximityKeyPressTrigger(hero, critter, 1.5f, Keys.K) { if(it) talk.say("Nice") } }
+    private val heroCritterTalk by lazy { ProximityKeyPressTrigger(hero, critter, 1.5f, Keys.K) { if(it) ConversationHandler(Gdx.files.internal("conversation_test.json"), talk).startConversation() } }
     private var talkTested = false
 
 //    private val debugRenderer by lazy { Box2DDebugRenderer() }
@@ -88,7 +88,6 @@ class DemoScreen : ScreenAdapter() {
             val name = UserNameMethodExercise.call()
             LongRunExercise.enqueue()
             System.err.println("Hello $name")
-            ConversationHandler(Gdx.files.internal("conversation_test.json")).startConversation()
         }
     }
 
